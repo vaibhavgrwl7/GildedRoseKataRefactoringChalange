@@ -19,63 +19,71 @@ class GildedRose {
             doUpdateQuality(item);
         }
     }
-
-    private void doUpdateQuality(Item item){
-    	//When Category = "Aged Brie"
-        if (item.name.equals(Aged_Brie)){
-            incquality(item);
-            updatesellIn(item);
-        }
-        //When Category = "Backstage passes to a TAFKAL80ETC concert"
-        else if (item.name.equals(Backstage_passes)){
-        	if (item.quality <= 50) {
-        		if (item.sellIn < 11 && item.sellIn > 5){
-        			item.quality = item.quality + 2;
-        			if (item.quality > 50) {
-        				item.quality = 50;
-        			}
-        			updatesellIn(item);
-        		}
-        		else if (item.sellIn < 6 && item.sellIn > 0){
-        			item.quality = item.quality + 3;
-        			if (item.quality > 50) {
-        				item.quality = 50;
-        			}
-        			updatesellIn(item);
-        		}
-        		else if (item.sellIn <= 0){
-        			item.quality = 0;
-        			updatesellIn(item);
-        		}
-                else{
-                    incquality(item);
-                    updatesellIn(item);
-                }
-        	}
+    
+    private void UpdateAgedBrie(Item item) {
+        incquality(item);
+        updatesellIn(item);
+    }
+    
+    private void UpdateBackstagePasses(Item item) {
+    	if (item.quality <= 50) {
+    		if (item.sellIn < 11 && item.sellIn > 5){
+    			item.quality = item.quality + 2;
+    			if (item.quality > 50) {
+    				item.quality = 50;
+    			}
+    			updatesellIn(item);
+    		}
+    		else if (item.sellIn < 6 && item.sellIn > 0){
+    			item.quality = item.quality + 3;
+    			if (item.quality > 50) {
+    				item.quality = 50;
+    			}
+    			updatesellIn(item);
+    		}
+    		else if (item.sellIn <= 0){
+    			item.quality = 0;
+    			updatesellIn(item);
+    		}
             else{
                 incquality(item);
                 updatesellIn(item);
             }
-        }
-     
-        //When Category = "Sulfuras, Hand of Ragnaros"
-        else if (item.name.equals(Sulfuras)){
-            item.sellIn = item.sellIn;
-            item.quality = item.quality;
-        }
-     
-        //When Category = "Conjured Mana Cake"
-        else if (item.name.equals(Conjured)){
-        	//For Conjured Quality decrease twice. Hence, multiplier will be '2'
-            decquality(item, 2);
+    	}
+        else{
+            incquality(item);
             updatesellIn(item);
         }
-        //When Item does not belong to any defined category
+    }
+    
+    private void UpdateSulfuras(Item item) {
+        item.sellIn = item.sellIn;
+        item.quality = item.quality;
+    }
+    
+    private void UpdateConjured(Item item) {
+    	//For Conjured Quality decrease twice. Hence, multiplier will be '2'
+        decquality(item, 2);
+        updatesellIn(item);
+    }
+
+    private void doUpdateQuality(Item item){
+        if (item.name.equals(Aged_Brie)){
+        	UpdateAgedBrie(item);
+        }
+        else if (item.name.equals(Backstage_passes)){
+        	UpdateBackstagePasses(item);
+        }
+        else if (item.name.equals(Sulfuras)){
+        	UpdateSulfuras(item);
+        }
+        else if (item.name.equals(Conjured)){
+        	UpdateConjured(item);
+        }
         else{
             decquality(item, 1);
             updatesellIn(item);
         }
-
     }
     
     //It will take multiplier as a input parameter
